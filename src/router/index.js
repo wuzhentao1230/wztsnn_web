@@ -9,12 +9,12 @@ export default new Router({
   routes: [
     {
       path: '/login',
-      name: 'login',
+      name: '登录页',
       component: login
     },
     {
-      path: '/home',
-      name: 'home',
+      path: '/index',
+      name: '首页',
       component: home
     }
   ]
