@@ -12,6 +12,7 @@
       <el-input
         placeholder="输入密码"
         size="small"
+        type="password"
         v-model="password"
         style="width: auto;margin: 10px;">
         <i slot="prefix" class="el-input__icon el-icon-key"></i>
@@ -72,6 +73,8 @@ export default {
         let data = r.data.data
         this.saveLoginData(data)
         this.$router.push('/')
+      }).catch(function (error) {
+        console.log(error.data)
       })
     },
     ...mapMutations({
