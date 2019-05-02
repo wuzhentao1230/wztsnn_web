@@ -1,19 +1,44 @@
 <template>
   <div class="main">
     <div class="loginview">
-      <h1 style="color: white;margin: 10px;">登录</h1>
-      <Input size="large" prefix="ios-contact" placeholder="Enter name" style="width: auto;margin: 10px;"/>
-      <Input size="large" prefix="ios-keypad" placeholder="Enter passwd" style="width: auto;margin: 10px;"/>
-      <Button type="success" ghost style="width: 60%;margin: 10px;">{{btnText}}</Button>
+      <h1 style="margin: 10px;">登录</h1>
+      <el-input
+        placeholder="输入账号"
+        size="small"
+        v-model="userName"
+        style="width: auto;margin: 10px;">
+        <i slot="prefix" class="el-input__icon el-icon-user"></i>
+      </el-input>
+      <el-input
+        placeholder="输入密码"
+        size="small"
+        v-model="password"
+        style="width: auto;margin: 10px;">
+        <i slot="prefix" class="el-input__icon el-icon-key"></i>
+      </el-input>
+      <div class="buttons">
+        <el-button type="primary" plain style="width: 90%;" @click="login">{{btnText}}</el-button>
+      </div>
+
+      <div style="width: 100%;">
+        <el-checkbox
+          v-model="checked"
+          style="width: 30%;margin: 15px;float: left"
+        >记住密码</el-checkbox>
+        <p style="width: 30%;float: right;font-size: 14px;">注册账号</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import {mapMutations} from 'vuex'
 export default {
+
   name: 'login',
   data () {
     return {
+      checked: false,
       userName: '',
       password: '',
       isBtnLoading: false
@@ -40,6 +65,40 @@ export default {
       if (!this.password) {
         this.$message.error('请输入密码')
       }
+      this.$post('login', {
+        username: this.userName,
+        password: this.password
+      }).then((r) => {
+        let data = r.data.data
+        this.saveLoginData(data)
+        this.$router.push('/')
+      })
+    },
+    ...mapMutations({
+      setToken: 'account/setToken',
+      setExpireTime: 'account/setExpireTime',
+      setPermissions: 'account/setPermissions',
+      setRoles: 'account/setRoles',
+      setUser: 'account/setUser'
+      // setTheme: 'setting/setTheme',
+      // setLayout: 'setting/setLayout',
+      // setMultipage: 'setting/setMultipage',
+      // fixSiderbar: 'setting/fixSiderbar',
+      // fixHeader: 'setting/fixHeader',
+      // setColor: 'setting/setColor'
+    }),
+    saveLoginData (data) {
+      this.setToken(data.token)
+      this.setExpireTime(data.exipreTime)
+      this.setUser(data.user)
+      this.setPermissions(data.permissions)
+      this.setRoles(data.roles)
+      // this.setTheme(data.config.theme)
+      // this.setLayout(data.config.layout)
+      // this.setMultipage(data.config.multiPage === '1')
+      // this.fixSiderbar(data.config.fixSiderbar === '1')
+      // this.fixHeader(data.config.fixHeader === '1')
+      // this.setColor(data.config.color)
     }
   }
 }
@@ -51,7 +110,9 @@ export default {
     height: 100vh;
     background-image: url("../assets/pg_back_login.jpg");
     background-size: 100% 100%;
-    position: absolute;
+    position: fixed;
+    top: 0;
+    left: 0;
     z-index: 1;
     display: flex;
     justify-content: center;
@@ -66,5 +127,13 @@ export default {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+  }
+  .buttons{
+    width: 100%;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 </style>
