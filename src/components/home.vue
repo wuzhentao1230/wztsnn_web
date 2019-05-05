@@ -1,55 +1,40 @@
 <template>
-    <el-container >
-      <el-header style="text-align: right; font-size: 12px;">
-        <el-dropdown>
-          <i class="el-icon-setting" style="margin-right: 15px;color: white"></i>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>查看用户信息</el-dropdown-item>
-            <el-dropdown-item>注销</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <span style="color: white">王小虎</span>
-      </el-header>
+  <el-menu
+    :default-active="activeIndex"
+    class="el-menu-demo"
+    router=true
+    mode="horizontal"
+    @select="handleSelect"
+    background-color="#545c64"
+    text-color="#fff"
+    active-text-color="#ffd04b">
+    <el-menu-item index="1">处理中心</el-menu-item>
+    <el-submenu index="2">
+      <template slot="title">我的工作台</template>
+      <el-menu-item index="2-1">选项1</el-menu-item>
+      <el-menu-item index="2-2">选项2</el-menu-item>
+      <el-menu-item index="2-3">选项3</el-menu-item>
+      <el-submenu index="2-4">
+        <template slot="title">选项4</template>
+        <el-menu-item index="2-4-1">选项1</el-menu-item>
+        <el-menu-item index="2-4-2">选项2</el-menu-item>
+        <el-menu-item index="/login">/login</el-menu-item>
+      </el-submenu>
+    </el-submenu>
+    <!--<el-menu-item index="3" disabled>消息中心</el-menu-item>-->
+    <!--<el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>-->
+  </el-menu>
 
-      <el-container>
-        <el-aside width="250px;" >
-          <el-menu background-color="#636363" default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-            <el-submenu index="1">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span slot="title">用户</span>
-              </template>
-              <el-menu-item-group>
-                <span slot="title">分组一</span>
-                <el-menu-item index="1-1">选项1</el-menu-item>
-                <el-menu-item index="1-2">选项2</el-menu-item>
-              </el-menu-item-group>
-              <el-menu-item-group title="分组2">
-                <el-menu-item index="1-3">选项3</el-menu-item>
-              </el-menu-item-group>
-              <el-submenu index="1-4">
-                <span slot="title">选项4</span>
-                <el-menu-item index="1-4-1">选项1</el-menu-item>
-              </el-submenu>
-            </el-submenu>
-          </el-menu>
-        </el-aside>
-        <el-main>Main</el-main>
-      </el-container>
-    </el-container>
 </template>
 <script>
 export default {
   data () {
     return {
-      isCollapse: false
+      activeIndex: '1'
     }
   },
   methods: {
-    handleOpen (key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose (key, keyPath) {
+    handleSelect (key, keyPath) {
       console.log(key, keyPath)
     }
   }
