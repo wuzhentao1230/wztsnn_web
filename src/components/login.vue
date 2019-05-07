@@ -1,12 +1,12 @@
 <template>
   <div class="main">
     <div class="loginview">
-      <h1 style="color: white;margin: 10px;">登录</h1>
+      <h1 style="color: white;margin: 10px;">系统登录</h1>
       <Input size="large" prefix="ios-contact" v-model="userName" placeholder="Enter name" style="width: auto;margin: 10px;"/>
-      <Input size="large" prefix="ios-keypad" v-model="password" placeholder="Enter passwd" style="width: auto;margin: 10px;"/>
+      <Input size="large" prefix="ios-keypad" type="password" v-model="password" placeholder="Enter passwd" style="width: auto;margin: 10px;"/>
       <Button type="success" ghost @click="login" style="width: 90%;margin: 10px 0px;">{{btnText}}</Button>
       <div style="width: 100%;">
-        <p style="width: 30%;float: right;font-size: 14px;">注册账号</p>
+        <p style="width: 30%;float: right;font-size: 10px;color: white">注册账号</p>
       </div>
     </div>
   </div>
