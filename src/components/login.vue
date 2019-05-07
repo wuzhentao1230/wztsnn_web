@@ -1,31 +1,11 @@
 <template>
   <div class="main">
     <div class="loginview">
-      <h1 style="margin: 10px;">登录</h1>
-      <el-input
-        placeholder="输入账号"
-        size="small"
-        v-model="userName"
-        style="width: auto;margin: 10px;">
-        <i slot="prefix" class="el-input__icon el-icon-user"></i>
-      </el-input>
-      <el-input
-        placeholder="输入密码"
-        size="small"
-        type="password"
-        v-model="password"
-        style="width: auto;margin: 10px;">
-        <i slot="prefix" class="el-input__icon el-icon-key"></i>
-      </el-input>
-      <div class="buttons">
-        <el-button type="primary" plain style="width: 90%;" @click="login">{{btnText}}</el-button>
-      </div>
-
+      <h1 style="color: white;margin: 10px;">登录</h1>
+      <Input size="large" prefix="ios-contact" v-model="userName" placeholder="Enter name" style="width: auto;margin: 10px;"/>
+      <Input size="large" prefix="ios-keypad" v-model="password" placeholder="Enter passwd" style="width: auto;margin: 10px;"/>
+      <Button type="success" ghost @click="login" style="width: 90%;margin: 10px 0px;">{{btnText}}</Button>
       <div style="width: 100%;">
-        <el-checkbox
-          v-model="checked"
-          style="width: 30%;margin: 15px;float: left"
-        >记住密码</el-checkbox>
         <p style="width: 30%;float: right;font-size: 14px;">注册账号</p>
       </div>
     </div>
