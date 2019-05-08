@@ -48,11 +48,27 @@
     vertical-align: middle;
     font-size: 22px;
   }
+  .touxiang{
+    float: right;
+    width: 80px;
+    height: 100%;
+    margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .avatar{
+    width: 50px;
+    height: 50px;
+    margin-top: 20px;
+    border-radius: 50%;
+  }
 </style>
 <template>
   <div class="layout">
     <Layout>
-      <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
+      <Sider ref="side1" hide-trigger breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
         <Menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses">
           <MenuItem name="1-1">
             <Icon type="ios-navigate"></Icon>
@@ -71,6 +87,17 @@
       <Layout>
         <Header :style="{padding: 0}" class="layout-header-bar">
           <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>
+          <div class="touxiang">
+            <Dropdown @on-click="changeMenu">
+            <a href="javascript:void(0)">
+              <img class="avatar" :src="avatar">
+            </a>
+            <DropdownMenu slot="list">
+              <DropdownItem disabled>{{this.$store.state.account.user.username}}</DropdownItem>
+              <DropdownItem divided style="color: orange" name="logout">注销</DropdownItem>
+            </DropdownMenu>
+            </Dropdown>
+          </div>
         </Header>
         <Content :style="{margin: '20px', background: '#fff', minHeight: '90vh'}">
           Content
@@ -81,9 +108,14 @@
 </template>
 <script>
 export default {
+  created: function () {
+    this.avatar = this.$store.state.avatarPartUrl + this.$store.state.account.user.avatar
+    console.log(this.avatar)
+  },
   data () {
     return {
-      isCollapsed: false
+      isCollapsed: false,
+      avatar: ''
     }
   },
   computed: {
@@ -103,6 +135,17 @@ export default {
   methods: {
     collapsedSider () {
       this.$refs.side1.toggleCollapse()
+    },
+    changeMenu (name) {
+      if (name === 'logout') {
+        this.logout()
+      }
+    },
+    logout () {
+      console.log('开始清除本地存储')
+      this.$db.clear()
+      this.$router.options.routes = []
+      this.$router.push('/login')
     }
   }
 }

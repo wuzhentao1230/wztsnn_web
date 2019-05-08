@@ -6,13 +6,15 @@ import db from '@/utils/localstorage'
 
 Vue.use(Router)
 let constRouter = [
+
+  {path: '/', redirect: '/home'},
   {
     path: '/login',
     name: '登录页',
     component: login
   },
   {
-    path: '/',
+    path: '/home',
     name: '首页',
     component: home
   }

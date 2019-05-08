@@ -7,10 +7,17 @@ import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import request from './utils/request'
 import store from './store'
+import db from '@/utils/localstorage'
 
 Vue.config.productionTip = false
 
 Vue.use(iView)
+
+Vue.use({
+  install (Vue) {
+    Vue.prototype.$db = db
+  }
+})
 
 Vue.prototype.$post = request.post
 Vue.prototype.$get = request.get

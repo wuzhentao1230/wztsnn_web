@@ -6,6 +6,9 @@ import setting from './modules/setting'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  state: {
+    avatarPartUrl: 'static/avatar/'
+  },
   modules: {
     account,
     setting
