@@ -11,14 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/service': {
-      //   // target: 'http://localhost:7979',  //目标接口域名
-      //   target: 'https://wztsnn.xyz',  //目标接口域名
-      //   changeOrigin: true,  //是否跨域
-      //   pathRewrite: {
-      //     '^/service': ''   //重写接口
-      //   }
-      // }
+      '/api': {
+        target: 'http://localhost:7979',  //目标接口域名
+        changeOrigin: true,  //是否跨域
+        pathRewrite: {
+          '^/api': ''   //重写接口
+        }
+      }
     },
 
     // Various Dev Server settings

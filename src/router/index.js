@@ -40,6 +40,7 @@ router.beforeEach((to, from, next) => {
       if (!userRouter) {
         request.get(`menu/${user.username}`).then((res) => {
           asyncRouter = res.data
+          console.log(asyncRouter)
           save('USER_ROUTER', asyncRouter)
           go(to, next)
         })
@@ -57,6 +58,7 @@ router.beforeEach((to, from, next) => {
 
 function go (to, next) {
   asyncRouter = filterAsyncRouter(asyncRouter)
+
   router.addRoutes(asyncRouter)
   next({...to, replace: true})
 }
@@ -71,8 +73,18 @@ function get (name) {
 function filterAsyncRouter (routes) {
   return routes.filter((route) => {
     let component = route.component
+    console.log(route)
     if (component) {
-      route.component = view(component)
+      if (component) {
+        switch (route.component) {
+          case 'home':
+            route.component = home
+            break
+          default:
+            route.component = view(component)
+        }
+      }
+
       if (route.children && route.children.length) {
         route.children = filterAsyncRouter(route.children)
       }
@@ -82,7 +94,8 @@ function filterAsyncRouter (routes) {
 }
 function view (path) {
   return function (resolve) {
-    import(`@/views/${path}.vue`).then(mod => {
+    console.log(`@/components/${path}.vue`)
+    import(`@/components/${path}.vue`).then(mod => {
       resolve(mod)
     })
   }

@@ -100,7 +100,7 @@
           </div>
         </Header>
         <Content :style="{margin: '20px', background: '#fff', minHeight: '90vh'}">
-          Content
+          <router-view></router-view>
         </Content>
       </Layout>
     </Layout>
