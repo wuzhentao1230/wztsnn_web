@@ -1,10 +1,10 @@
 <template>
-    <p>userupdate</p>
+    <p>role</p>
 </template>
 
 <script>
 export default {
-  name: 'menuadd'
+  name: 'roleview'
 }
 </script>
 
