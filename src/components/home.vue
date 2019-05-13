@@ -80,7 +80,7 @@
           <div class="touxiang">
             <Dropdown @on-click="changeMenu">
             <a href="javascript:void(0)">
-              <img class="avatar" :src="avatar">
+              <img class="avatar" :src="this.$store.state.account.user.avatar?avatar:'static/avatar/default2.jpg'">
             </a>
             <DropdownMenu slot="list">
               <DropdownItem disabled>{{this.$store.state.account.user.username}}</DropdownItem>

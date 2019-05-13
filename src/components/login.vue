@@ -26,8 +26,8 @@ export default {
       checked: false,
       userName: '',
       password: '',
-      email: '1',
-      mobile: '1',
+      email: '',
+      mobile: '',
       isBtnLoading: false
     }
   },
