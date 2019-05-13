@@ -107,7 +107,7 @@ export default {
     let userRouter = get('USER_ROUTER')
     let userName = this.$store.state.account.user.username
     if (!userRouter) {
-      this.get(`menu/` + userName).then((res) => {
+      this.$get(`menu/` + userName).then((res) => {
         userRouter = res.data
         this.menuList = userRouter
       })
