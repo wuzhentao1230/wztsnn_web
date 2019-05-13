@@ -4,9 +4,12 @@
       <h1  style="color: white;margin: 10px;">{{status === 'login'?'系统登录':'注册账号'}}</h1>
       <Input size="large" prefix="ios-contact" v-model="userName" placeholder="Enter name" style="width: auto;margin: 10px;"/>
       <Input size="large" prefix="ios-keypad" type="password" v-model="password" placeholder="Enter passwd" style="width: auto;margin: 10px;"/>
-      <Button type="success" ghost @click="login" style="width: 90%;margin: 10px 0px;">{{btnText}}</Button>
+      <Input v-if="status === 'register'" size="large" prefix="ios-paper-plane-outline" type="email" v-model="email" placeholder="Enter Email" style="width: auto;margin: 10px;"/>
+      <Input v-if="status === 'register'" size="large" prefix="ios-call-outline" type="tel" v-model="mobile" placeholder="Enter phone number" style="width: auto;margin: 10px;"/>
+      <Button v-if="status === 'login'" type="success" ghost @click="login" style="width: 90%;margin: 10px 0px;">{{btnText}}</Button>
+      <Button v-if="status === 'register'" type="success" ghost @click="register" style="width: 90%;margin: 10px 0px;">注册账号</Button>
       <div style="width: 100%;">
-        <p style="width: 30%;float: right;font-size: 10px;color: white">注册账号</p>
+        <p style="width: 30%;float: right;font-size: 10px;color: white" @click="change">注册账号</p>
       </div>
     </div>
   </div>
@@ -23,6 +26,8 @@ export default {
       checked: false,
       userName: '',
       password: '',
+      email: '1',
+      mobile: '1',
       isBtnLoading: false
     }
   },
@@ -39,13 +44,27 @@ export default {
     }
   },
   methods: {
+    change () {
+      console.log(this.status)
+      if (this.status === 'login') {
+        this.status = 'register'
+        return
+      }
+      if (this.status === 'register') {
+        this.status = 'login'
+      }
+    },
     login () {
       if (!this.userName) {
-        this.$message.error('请输入用户名')
+        this.$Notice.warning({
+          title: '输入用户名'
+        })
         return
       }
       if (!this.password) {
-        this.$message.error('请输入密码')
+        this.$Notice.warning({
+          title: '请输入密码'
+        })
       }
       this.$post('login', {
         username: this.userName,
@@ -64,6 +83,39 @@ export default {
         }
       }).catch(function (error) {
         console.log(error.data)
+      })
+    },
+    register () {
+      if (!this.userName) {
+        this.$Notice.warning({
+          title: '输入用户名'
+        })
+        return
+      }
+      if (!this.password) {
+        this.$Notice.warning({
+          title: '请输入密码'
+        })
+      }
+      this.$post('register', {
+        username: this.userName,
+        password: this.password,
+        email: this.email,
+        mobile: this.mobile
+      }).then((r) => {
+        if (r.data.status === 200) {
+          this.$Notice.warning({
+            title: '注册成功'
+          })
+          this.status = 'login'
+        } else if (r.data.status === 400) {
+          this.$Notice.error({
+            title: '注册失败',
+            desc: r.data.message
+          })
+        }
+      }).catch(function (error) {
+        console.log(error)
       })
     },
     ...mapMutations({
