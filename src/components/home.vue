@@ -1,6 +1,6 @@
 <style scoped>
   .layout{
-    border: 1px solid #d7dde4;
+    /*border: 1px solid #d7dde4;*/
     background: #f5f7f9;
     position: relative;
     border-radius: 4px;
@@ -68,10 +68,11 @@
 <template>
   <div class="layout">
     <Layout>
-      <Sider ref="side1" hide-trigger breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
-        <Menu  theme="dark" width="auto" :class="menuitemClasses">
-          <Menu></Menu>
-        </Menu>
+      <Sider ref="side1" hide-trigger breakpoint="md" collapsible :collapsed-width="100" v-model="isCollapsed">
+        <!--<h1 style="color: white;margin: 20px 0px;font-weight: bolder" align="center">阿涛</h1>-->
+        <img src="static/logo.jpg" style="width: 100%;opacity: 0.1;margin: 20px 0px;" >
+        <sidebarMenu  theme="dark" width="auto" :menuList="menuList" :isHide="isCollapsed" :class="menuitemClasses">
+        </sidebarMenu>
       </Sider>
       <Layout>
         <Header :style="{padding: 0}" class="layout-header-bar">
@@ -96,18 +97,27 @@
   </div>
 </template>
 <script>
-import Menu from './Menu'
+import sidebarMenu from './SideMenu.vue'
 export default {
   name: 'home',
-  components: {Menu},
+  components: {sidebarMenu},
   created: function () {
     this.avatar = this.$store.state.avatarPartUrl + this.$store.state.account.user.avatar
-    console.log(this.avatar)
+
+    let userRouter = get('USER_ROUTER')
+    let userName = this.$store.state.account.user.username
+    if (!userRouter) {
+      this.get(`menu/` + userName).then((res) => {
+        userRouter = res.data
+      })
+    }
+    this.menuList = userRouter
   },
   data () {
     return {
       isCollapsed: false,
-      avatar: ''
+      avatar: '',
+      menuList: []
     }
   },
   computed: {
@@ -140,5 +150,8 @@ export default {
       this.$router.push('/login')
     }
   }
+}
+function get (name) {
+  return JSON.parse(localStorage.getItem(name))
 }
 </script>

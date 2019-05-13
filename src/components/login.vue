@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="loginview">
-      <h1 style="color: white;margin: 10px;">系统登录</h1>
+      <h1  style="color: white;margin: 10px;">{{status === 'login'?'系统登录':'注册账号'}}</h1>
       <Input size="large" prefix="ios-contact" v-model="userName" placeholder="Enter name" style="width: auto;margin: 10px;"/>
       <Input size="large" prefix="ios-keypad" type="password" v-model="password" placeholder="Enter passwd" style="width: auto;margin: 10px;"/>
       <Button type="success" ghost @click="login" style="width: 90%;margin: 10px 0px;">{{btnText}}</Button>
@@ -19,6 +19,7 @@ export default {
   name: 'login',
   data () {
     return {
+      status: 'login',
       checked: false,
       userName: '',
       password: '',
@@ -50,9 +51,17 @@ export default {
         username: this.userName,
         password: this.password
       }).then((r) => {
-        let data = r.data.data
-        this.saveLoginData(data)
-        this.$router.push('/')
+        console.log(r.data)
+        if (r.data.status === 200) {
+          let data = r.data.data
+          this.saveLoginData(data)
+          this.$router.push('/')
+        } else if (r.data.status === 400) {
+          this.$Notice.error({
+            title: '登录失败',
+            desc: r.data.message
+          })
+        }
       }).catch(function (error) {
         console.log(error.data)
       })
