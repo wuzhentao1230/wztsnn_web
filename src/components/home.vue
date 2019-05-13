@@ -109,9 +109,11 @@ export default {
     if (!userRouter) {
       this.get(`menu/` + userName).then((res) => {
         userRouter = res.data
+        this.menuList = userRouter
       })
+    } else {
+      this.menuList = userRouter
     }
-    this.menuList = userRouter
   },
   data () {
     return {
