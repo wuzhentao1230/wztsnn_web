@@ -9,7 +9,8 @@
       <Button v-if="status === 'login'" type="success" ghost @click="login" style="width: 90%;margin: 10px 0px;">{{btnText}}</Button>
       <Button v-if="status === 'register'" type="success" ghost @click="register" style="width: 90%;margin: 10px 0px;">注册账号</Button>
       <div style="width: 100%;">
-        <p style="width: 30%;float: right;font-size: 10px;color: white" @click="change">注册账号</p>
+        <p v-if="status === 'login'" style="width: 30%;float: right;font-size: 10px;color: white" @click="change">注册账号</p>
+        <p v-if="status === 'register'" style="width: 30%;float: right;font-size: 10px;color: white" @click="change">登录账号</p>
       </div>
     </div>
   </div>
