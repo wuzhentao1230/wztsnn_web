@@ -48,22 +48,7 @@
     vertical-align: middle;
     font-size: 22px;
   }
-  .touxiang{
-    float: right;
-    width: 80px;
-    height: 100%;
-    margin-right: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-  .avatar{
-    width: 50px;
-    height: 50px;
-    margin-top: 20px;
-    border-radius: 50%;
-  }
+
 </style>
 <template>
   <div class="layout">
@@ -77,17 +62,7 @@
       <Layout>
         <Header :style="{padding: 0}" class="layout-header-bar">
           <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>
-          <div class="touxiang">
-            <Dropdown @on-click="changeMenu">
-            <a href="javascript:void(0)">
-              <img class="avatar" :src="this.$store.state.account.user.avatar?avatar:'static/avatar/default2.jpg'">
-            </a>
-            <DropdownMenu slot="list">
-              <DropdownItem disabled>{{this.$store.state.account.user.username}}</DropdownItem>
-              <DropdownItem divided style="color: orange" name="logout">注销</DropdownItem>
-            </DropdownMenu>
-            </Dropdown>
-          </div>
+          <touxiang></touxiang>
         </Header>
         <Content :style="{margin: '20px', background: '#fff', minHeight: '90vh'}">
           <router-view></router-view>
@@ -98,12 +73,11 @@
 </template>
 <script>
 import sidebarMenu from './SideMenu.vue'
+import touxiang from './common/touxiang.vue'
 export default {
   name: 'home',
-  components: {sidebarMenu},
+  components: {sidebarMenu, touxiang},
   created: function () {
-    this.avatar = this.$store.state.avatarPartUrl + this.$store.state.account.user.avatar
-
     let userRouter = get('USER_ROUTER')
     let userName = this.$store.state.account.user.username
     if (!userRouter) {
@@ -139,17 +113,6 @@ export default {
   methods: {
     collapsedSider () {
       this.$refs.side1.toggleCollapse()
-    },
-    changeMenu (name) {
-      if (name === 'logout') {
-        this.logout()
-      }
-    },
-    logout () {
-      console.log('开始清除本地存储')
-      this.$db.clear()
-      this.$router.options.routes = []
-      this.$router.push('/login')
     }
   }
 }

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import login from '@/components/login'
+import workspace from '@/components/workspace'
 import home from '@/components/home'
 import db from '@/utils/localstorage'
 import request from '@/utils/request'
@@ -18,6 +19,11 @@ let constRouter = [
     path: '/home',
     name: '首页',
     component: home
+  },
+  {
+    path: '/workspace',
+    name: '工作台',
+    component: workspace
   }
 ]
 
@@ -25,12 +31,14 @@ let router = new Router({
   routes: constRouter
 })
 
-const whiteList = ['/login']
+const whiteList = ['/login', '/workspace']
 let asyncRouter
 // 导航守卫，渲染动态路由
 router.beforeEach((to, from, next) => {
   if (whiteList.indexOf(to.path) !== -1) {
+    console.log('白名单')
     next()
+    return
   }
   let token = db.get('USER_TOKEN')
   let user = db.get('USER')
@@ -52,6 +60,7 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
+    console.log('跳转')
     next('/login')
   }
 })

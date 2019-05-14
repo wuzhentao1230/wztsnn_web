@@ -6,8 +6,8 @@ moment.locale('zh-cn')
 
 // 统一配置
 let HTTPUTIL = axios.create({
-  baseURL: 'https://wztsnn.xyz/service/',
-  // baseURL: '/api',
+  // baseURL: 'https://wztsnn.xyz/service/',
+  baseURL: '/api',
   responseType: 'json',
   validateStatus (status) {
     // 200 外的状态码都认定为失败
